@@ -138,9 +138,9 @@ func _notification(what: int) -> void:
 
 func _hit(pos: Vector2) -> String:
 	if page == "game":
-		if released_target == "restart" and press_target == "restart": return "restart"
-		if released_target == "pause" and press_target == "pause": return "pause"
-		if released_target == "menu" and press_target == "menu": return "menu"
+		if Rect2(38, 976, 644, 74).has_point(pos): return "restart"
+		if Rect2(38, 1070, 310, 70).has_point(pos): return "pause"
+		if Rect2(372, 1070, 310, 70).has_point(pos): return "menu"
 		if BOARD.has_point(pos) and not paused and not rules.ended: return "board"
 	return "none"
 

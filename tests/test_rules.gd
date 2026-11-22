@@ -28,8 +28,8 @@ func _initialize() -> void:
 		var col := i % 9
 		var row := i / 9
 		for offset in [Vector2.ZERO, Vector2(8, 8), Vector2(-8, -8), Vector2(8, -8), Vector2(-8, 8)]:
-			var pt := grid.position + Vector2((col + 0.5) * grid.size.x / 9.0, (row + 0.5) * grid.size.y / 9.0) + offset
-			var normalized := (pt - Vector2(34, 178)) / Vector2(652, 770)
+			var pt: Vector2 = grid.position + Vector2((col + 0.5) * grid.size.x / 9.0, (row + 0.5) * grid.size.y / 9.0) + offset
+			var normalized: Vector2 = (pt - Vector2(34, 178)) / Vector2(652, 770)
 			check(game._tap_index(normalized) == i, "grade: casa %d" % i)
 	check(game._tap_index(Vector2.ZERO) == -1, "margem fora da grade")
 	game.reset()

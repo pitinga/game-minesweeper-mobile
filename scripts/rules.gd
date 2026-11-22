@@ -79,7 +79,9 @@ func reveal(index: int) -> bool:
 		_place_mines(index)
 		first_reveal = false
 	if values[index] == -1:
-		visible[index] = true
+		for i in range(values.size()):
+			if values[i] == -1:
+				visible[i] = true
 		ended = true
 		message = "Você encontrou uma mina!"
 		return true
@@ -135,9 +137,11 @@ func draw_game(canvas: CanvasItem, area: Rect2) -> void:
 		var r := cell_rect(grid, i % WIDTH, i / WIDTH, WIDTH, HEIGHT, 2.4)
 		canvas.draw_rect(r, Color("ffffff") if visible[i] else Color("567eb9"))
 		if flags[i] and not visible[i]:
-			label(canvas, "F", r.get_center(), 24, Color("fff3c5"))
+			var pole := r.position + Vector2(r.size.x * 0.35, r.size.y * 0.18)
+			canvas.draw_line(pole, pole + Vector2(0, r.size.y * 0.63), Color("fff3c5"), 3.0)
+			canvas.draw_colored_polygon(PackedVector2Array([pole, pole + Vector2(r.size.x * 0.46, r.size.y * 0.16), pole + Vector2(0, r.size.y * 0.34)]), Color("f8d65c"))
 		elif visible[i]:
 			if values[i] == -1:
-				label(canvas, "*", r.get_center(), 29, Color("d95663"))
+				canvas.draw_circle(r.get_center(), r.size.x * 0.23, Color("d95663"))
 			elif values[i] > 0:
 				label(canvas, str(values[i]), r.get_center(), 23, Color("3666be"))

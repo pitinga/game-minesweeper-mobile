@@ -195,12 +195,12 @@ func _handle_contact(pos: Vector2, pressed: bool) -> void:
 		elif Rect2(38, 1169, 644, 74).has_point(pos):
 			page = "pro"
 	elif page == "game":
-		if Rect2(38, 976, 644, 74).has_point(pos):
+		if released_target == "restart" and press_target == "restart":
 			rules.reset()
 			paused = false
-		elif Rect2(38, 1070, 310, 70).has_point(pos):
+		elif released_target == "pause" and press_target == "pause":
 			paused = not paused
-		elif Rect2(372, 1070, 310, 70).has_point(pos):
+		elif released_target == "menu" and press_target == "menu":
 			paused = false
 			page = "menu"
 		elif press_target == "board" and BOARD.has_point(pos) and not paused and not rules.ended:

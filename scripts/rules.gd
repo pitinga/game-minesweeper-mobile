@@ -101,9 +101,19 @@ func reveal(index: int) -> bool:
 	return true
 
 
+func grid_rect() -> Rect2:
+	var area := Rect2(34, 178, 652, 770).grow(-10)
+	var side := minf(area.size.x - 12, area.size.y - 140)
+	return Rect2(area.position + Vector2((area.size.x - side) * 0.5, 110), Vector2.ONE * side)
+
+
 func _tap_index(p: Vector2) -> int:
-	var x := int(floor(p.x * WIDTH))
-	var y := int(floor((p.y - 0.15) / 0.72 * HEIGHT))
+	var point := Vector2(34, 178) + p * Vector2(652, 770)
+	var grid := grid_rect()
+	if not grid.has_point(point): return -1
+	var local := (point - grid.position) / grid.size
+	var x := int(floor(local.x * WIDTH))
+	var y := int(floor(local.y * HEIGHT))
 	if x < 0 or x >= WIDTH or y < 0 or y >= HEIGHT:
 		return -1
 	return y * WIDTH + x
@@ -119,8 +129,7 @@ func hold(p: Vector2) -> void:
 
 func draw_game(canvas: CanvasItem, area: Rect2) -> void:
 	label(canvas, "Minas: %d  |  Marcas: %d" % [MINES, flag_count], Vector2(area.get_center().x, area.position.y + 50), 27)
-	var side := minf(area.size.x - 12, area.size.y - 140)
-	var grid := Rect2(area.position + Vector2((area.size.x - side) * 0.5, 110), Vector2.ONE * side)
+	var grid := grid_rect()
 	canvas.draw_rect(grid, Color("bdcce2"))
 	for i in range(WIDTH * HEIGHT):
 		var r := cell_rect(grid, i % WIDTH, i / WIDTH, WIDTH, HEIGHT, 2.4)

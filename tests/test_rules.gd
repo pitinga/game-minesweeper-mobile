@@ -34,6 +34,15 @@ func _initialize() -> void:
 	check(game._tap_index(Vector2.ZERO) == -1, "margem fora da grade")
 	game.reset()
 	check(game.first_reveal and game.flag_count == 0, "reinício apaga campo e bandeiras")
+	game.reset()
+	game.reveal(40)
+	var mine_idx: int = game.values.find(-1)
+	check(mine_idx >= 0, "há mina preparada")
+	game.reveal(mine_idx)
+	check(game.ended and game.visible.count(true) >= 10, "derrota revela todas as minas")
+	for i in range(81):
+		if game.values[i] == -1:
+			check(game.visible[i], "mina %d visível após derrota" % i)
 	finish()
 
 
